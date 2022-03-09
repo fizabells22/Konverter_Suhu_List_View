@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
                 decoration: const InputDecoration(
                     hintText: "Masukkan Suhu Dalam Celcius"),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               DropdownButton(
                 isExpanded: true,
                 value: selectedDropDown,
@@ -58,16 +58,16 @@ class _MyAppState extends State<MyApp> {
                   onDropdownChanged(value);
                 },
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               const Text(
                 'Hasil',
                 style: TextStyle(fontSize: 23),
               ),
               Text(
                 '$_result',
-                style: TextStyle(fontSize: 32),
+                style: const TextStyle(fontSize: 32),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   Expanded(
@@ -75,17 +75,17 @@ class _MyAppState extends State<MyApp> {
                       onPressed: () {
                         konversiSuhu();
                       },
-                      child: Text('Konversi Suhu'),
+                      child: const Text('Konversi Suhu'),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 'Riwayat Konversi',
                 style: TextStyle(fontSize: 25),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Expanded(
                 child: ListView.builder(
                     itemCount: listHasil.length,
@@ -130,6 +130,28 @@ class _MyAppState extends State<MyApp> {
   void onDropdownChanged(Object? value) {
     return setState(() {
       selectedDropDown = value.toString();
+      if (etInput.text.isNotEmpty) {
+        switch (selectedDropDown) {
+          case "Kelvin":
+            _result = int.parse(etInput.text) + 273.15;
+            listHasil.add("Kelvin");
+            break;
+          case "Reamur":
+            _result = int.parse(etInput.text) * 0.8;
+            listHasil.add("Reamur");
+            break;
+          case "Fahrenheit":
+            _result = (int.parse(etInput.text) * 1.8) + 32;
+            listHasil.add("Fahrenheit");
+            break;
+        }
+        listHasil.add("Konversi dari " +
+            etInput.text +
+            " Celcius ke " +
+            selectedDropDown +
+            " dengan hasil = " +
+            _result.toString());
+      }
     });
   }
 }
